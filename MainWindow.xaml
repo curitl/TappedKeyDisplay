@@ -1,0 +1,45 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TappedKeyDisplay"
+        xmlns:c="clr-namespace:System.Configuration;assembly=System"
+        xmlns:p="clr-namespace:TappedKeyDisplay.Properties"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="TappedKeyDisplay.MainWindow"
+        Loaded="OnLoad"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label x:Name="lblFont" Content="Font" HorizontalAlignment="Left" Margin="292,71,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="lblSize" Content="Size" HorizontalAlignment="Left" Margin="295,124,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="lblResetTime" Content="Reset Time" HorizontalAlignment="Left" Margin="248,178,0,0" VerticalAlignment="Top" FontSize="14"/>
+
+        <xctk:IntegerUpDown x:Name="iudSize" HorizontalAlignment="Left" Margin="404,124,0,0" VerticalAlignment="Top" Height="28" Width="128" 
+                            Watermark="Enter Font Size" Value="14" Increment="1" Minimum="1" 
+                            AllowTextInput="True" ValueChanged="iudSize_ValueChanged"/>
+        <xctk:IntegerUpDown x:Name="iudResetTime" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="128" 
+                            Watermark="Enter Reset Time" Value="500" Minimum="100" Increment="100" 
+                            AllowTextInput="True" Margin="404,178,0,0" ValueChanged="iudResetTime_ValueChanged"/>
+
+        <!--ComboBox x:Name="cbFont" HorizontalAlignment="Left" Margin="409,90,0,0" VerticalAlignment="Top" Width="128" Height="28" 
+                  SelectionChanged="cbFont_SelectionChanged" ItemsSource="{x:Static Fonts.SystemFontFamilies}" VerticalContentAlignment="Center"
+                  SelectedItem="{Binding TFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/-->
+        <ComboBox x:Name="cbFont" HorizontalAlignment="Left" Margin="404,70,0,0" VerticalAlignment="Top" Width="128" Height="28" 
+                  SelectionChanged="cbFont_SelectionChanged"  VerticalContentAlignment="Center"/>
+
+        <CheckBox x:Name="cbLogging" Content="Enable Logging" HorizontalAlignment="Left" Margin="405,340,0,0" VerticalAlignment="Top"
+                  Checked="cbLogging_CheckedChanged" Unchecked="cbLogging_CheckedChanged">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <xctk:ColorPicker x:Name="clrpickerText" HorizontalAlignment="Left" Margin="405,234,0,0" VerticalAlignment="Top" SelectedColorChanged="clrpickerText_SelectedColorChanged"/>
+        <xctk:ColorPicker x:Name="clrpickerBG" HorizontalAlignment="Left" Margin="405,288,0,0" VerticalAlignment="Top" SelectedColorChanged="clrpickerBG_SelectedColorChanged"/>
+        <Label x:Name="lblTextColor" Content="Text Color" HorizontalAlignment="Left" Margin="251,232,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="lblBGColor" Content="Background Color" HorizontalAlignment="Left" Margin="204,286,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="lblTest" Content="Color Preview" HorizontalAlignment="Left" Margin="564,232,0,0" VerticalAlignment="Top" FontSize="14"/>
+
+
+    </Grid>
+</Window>
