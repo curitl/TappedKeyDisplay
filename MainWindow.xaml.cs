@@ -32,18 +32,55 @@ namespace TappedKeyDisplay
         private bool EnableLogging { get; set; }
         private Color TTextColour { get; set; }
         private Color TBGColour { get; set; }
+        private bool EnableDisplay { get; set; }
 
         int init = 0;
 
         public MainWindow()
         {
+            try
+            {
+                Configuration configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                if (configFile.HasFile == false)
+                {
+                    List<string> fontList = new List<string>();
+                    foreach (FontFamily ff in Fonts.SystemFontFamilies)
+                    {
+                        fontList.Add(ff.ToString());
+                    }
+
+                    Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+                    configDictionary.Add("Logging", "0");
+                    configDictionary.Add("SizeMaster", "14");
+                    configDictionary.Add("IntervalMaster", "500");
+                    configDictionary.Add("FontMaster", fontList[0]);
+                    configDictionary.Add("TextColour", "#FFFFFFFF");
+                    configDictionary.Add("BGColour", "#FFEE82EE");
+
+                    foreach(KeyValuePair<string, string> kvp in configDictionary)
+                    {
+                        configFile.AppSettings.Settings.Add(kvp.Key, kvp.Value);
+                    }
+                    
+                    configFile.Save(ConfigurationSaveMode.Full);
+                    System.Windows.Forms.Application.Restart();
+                    Environment.Exit(0);
+                }
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Xceed.Wpf.Toolkit.MessageBox.Show("Error writing app settings");
+            }
             InitializeComponent();
             tw.Show();
-            //Loaded += new RoutedEventHandler(OnLoad);
+            
         }
         void OnLoad(object sender, RoutedEventArgs e)
         {
-            foreach(FontFamily ff in Fonts.SystemFontFamilies)
+            
+
+            foreach (FontFamily ff in Fonts.SystemFontFamilies)
             {
                 cbFont.Items.Add(ff.ToString());
             }
@@ -107,7 +144,7 @@ namespace TappedKeyDisplay
                 else
                     tw.ChangeFont(TFont, TFontSize);
             } 
-            else
+            else 
             {
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                 config.AppSettings.Settings.Remove("SizeMaster");
@@ -199,6 +236,26 @@ namespace TappedKeyDisplay
             p.Kill();
             p.WaitForExit();
             p.Close();
+        }
+
+        private void cbDisable_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            EnableDisplay = Convert.ToBoolean(cbDisable.IsChecked);
+            tw.SetEnableDisplay(EnableDisplay);
+        }
+
+        private void btnRestart_Click(object sender, RoutedEventArgs e)
+        {
+            tw.Close();
+            System.Windows.Forms.Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void btnOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessStartInfo processStartInfo = new ProcessStartInfo("explorer.exe");
+            processStartInfo.Arguments = AppContext.BaseDirectory;
+            Process.Start(processStartInfo);
         }
     }
 }

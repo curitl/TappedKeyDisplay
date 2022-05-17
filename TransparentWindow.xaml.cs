@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace TappedKeyDisplay
 {
@@ -19,6 +20,7 @@ namespace TappedKeyDisplay
         private int TWFontSize { get; set; }
         private double TWIntervalTime { get; set; }
         private bool TWEnableLogging { get; set; }
+        private bool TWEnableDisplay { get; set; }
         private DateTime timerStart { get; set; }
 
         private bool setup = false;
@@ -47,6 +49,7 @@ namespace TappedKeyDisplay
             SetupKeyboardHooks();
 
             tbText.Text = "";
+            vc2kk.Init();
 
             this.tbText.MouseDown += new MouseButtonEventHandler(this.tbText_MouseDown);
             this.tbText.MouseMove += new MouseEventHandler(this.tbText_MouseMove);
@@ -54,8 +57,9 @@ namespace TappedKeyDisplay
             _timer.Interval = TimeSpan.FromMilliseconds(1);
             this.Closed += new EventHandler(OnClosed);
 
-            AllocConsole();
+            //AllocConsole();
             this.ShowInTaskbar = false;
+
         }
 
         private void OnClosed(object sender, EventArgs e)
@@ -141,7 +145,7 @@ namespace TappedKeyDisplay
             timerStart = DateTime.Now;
             _timer.Start();
 
-            if (a.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+            if (a.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown && !TWEnableDisplay)
             {
                 tbText.Text += vc2kk.vc2key(a.KeyboardData.VirtualCode);
                 tbText.Text += " ";
@@ -224,6 +228,11 @@ namespace TappedKeyDisplay
         public void SetEnableLogging(bool etl)
         {
             TWEnableLogging = etl;
+        }
+
+        public void SetEnableDisplay(bool edp)
+        {
+            TWEnableDisplay = edp;
         }
 
         public void ChangeTextColour(Color tc)

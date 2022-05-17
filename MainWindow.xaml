@@ -39,6 +39,14 @@
         <Label x:Name="lblTextColor" Content="Text Color" HorizontalAlignment="Left" Margin="251,232,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="lblBGColor" Content="Background Color" HorizontalAlignment="Left" Margin="204,286,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="lblTest" Content="Color Preview" HorizontalAlignment="Left" Margin="564,232,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <CheckBox x:Name="cbDisable" Content="Disable Display" HorizontalAlignment="Left" Margin="591,340,0,0" VerticalAlignment="Top"
+            Checked="cbDisable_CheckedChanged" Unchecked="cbDisable_CheckedChanged">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <Button x:Name="btnRestart" Content="Restart Application" HorizontalAlignment="Left" Margin="204,340,0,0" VerticalAlignment="Top" Width="126" Click="btnRestart_Click" Height="20"/>
+        <Button x:Name="btnOpenFolder" Content="Open Application Folder" HorizontalAlignment="Left" Margin="44,340,0,0" VerticalAlignment="Top" Width="155" Height="20" Click="btnOpenFolder_Click"/>
 
 
     </Grid>
